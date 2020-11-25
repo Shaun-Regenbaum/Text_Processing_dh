@@ -11,14 +11,14 @@ def get_dafim(soup_obj):
     return temp_dafim
 
 
-# addr = "https://hebrewbooks.org/shas.aspx?mesechta=9&daf=5&format=text"
+addr = "https://hebrewbooks.org/shas.aspx?mesechta=9&daf=5&format=text"
 
-# r = requests.get(addr)
-# print(r.status_code)
-# soup = BeautifulSoup(r.text, 'lxml')
+r = requests.get(addr)
+print(r.status_code)
+soup = BeautifulSoup(r.text, 'lxml')
 
-# for tag in soup.findAll(True):
-#     del tag["style"]
+for tag in soup.findAll(True):
+    del tag["style"]
 
 # a = str(soup.find(class_="shastext4")).split("\r\n")
 # print(a[2])
@@ -27,62 +27,64 @@ def get_dafim(soup_obj):
 
 # print(str(soup.find(class_="shastext3")).split('\r\n'))
 
+print(str(soup.find(id="cpMstr_ddlMesechtas")).split('\r\n'))
+
 
 
 # going through all masechtas
-for i in range(1,2):
-    masechta_data = {}
+# for i in range(1,38):
+#     masechta_data = {}
 
-    #getting the urls for all the dafim in the given masechta
-    urls = []
-    dafim_ids = []
+#     #getting the urls for all the dafim in the given masechta
+#     urls = []
+#     dafim_ids = []
 
-    #using the first daf to get the rest of them
-    url = (
-        "https://hebrewbooks.org/shas.aspx?mesechta=" +
-        str(i) +
-        "&daf=2&format=text"
-    )
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, 'lxml')
-    dafim = get_dafim(soup)
+#     #using the first daf to get the rest of them
+#     url = (
+#         "https://hebrewbooks.org/shas.aspx?mesechta=" +
+#         str(i) +
+#         "&daf=2&format=text"
+#     )
+#     r = requests.get(url)
+#     soup = BeautifulSoup(r.text, 'lxml')
+#     dafim = get_dafim(soup)
 
-    for daf in dafim:
-        urls.append(
-        "https://hebrewbooks.org/shas.aspx?mesechta=" +
-        str(i) +
-        "&daf=" +
-        str(daf) +
-        "&format=text"
-        )
-        dafim_ids.append(daf)
+#     for daf in dafim:
+#         urls.append(
+#         "https://hebrewbooks.org/shas.aspx?mesechta=" +
+#         str(i) +
+#         "&daf=" +
+#         str(daf) +
+#         "&format=text"
+#         )
+#         dafim_ids.append(daf)
    
-    j = 0
-    for url in urls:
-        r = requests.get(url)
-        print(r.status_code)
-        soup = BeautifulSoup(r.text, 'lxml')
+#     j = 0
+#     for url in urls:
+#         r = requests.get(url)
+#         print(r.status_code)
+#         soup = BeautifulSoup(r.text, 'lxml')
      
-        for tag in soup.findAll(True):
-            del tag["style"]
+#         for tag in soup.findAll(True):
+#             del tag["style"]
 
-        single_page = {
-            "mainText": str(soup.find(class_="shastext2")).split('\r\n'),
-            "rashiText": str(soup.find(class_="shastext3")).split('\r\n'),
-            "tosafotText": str(soup.find(class_="shastext4")).split('\r\n')
-        }
-
-        
-        with open(
-            'A:\Programming\Text Processing\Text\\'+
-            str(i)+
-            '_'+
-            str(dafim_ids[j])+
-            '.txt', 'w') as outfile:
-            json.dump(single_page, outfile)
+#         single_page = {
+#             "mainText": str(soup.find(class_="shastext2")).split('\r\n'),
+#             "rashiText": str(soup.find(class_="shastext3")).split('\r\n'),
+#             "tosafotText": str(soup.find(class_="shastext4")).split('\r\n')
+#         }
 
         
-        j = j + 1
+#         with open(
+#             'A:\Programming\Text Processing\Text\\'+
+#             str(i)+
+#             '_'+
+#             str(dafim_ids[j])+
+#             '.txt', 'w') as outfile:
+#             json.dump(single_page, outfile)
+
+        
+#         j = j + 1
 
 
 
